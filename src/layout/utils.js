@@ -1,0 +1,2 @@
+export const fromObjectToList = object => object ? Object.keys(object).map(key => ({ ...object[key], index: key })) : [];
+export const truncate = (text, limit=100) => !!text && text.length > limit ? `${text.substring(0, limit)} ...`: text;
