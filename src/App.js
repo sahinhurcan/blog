@@ -5,7 +5,9 @@ import { Provider } from 'react-redux'
 
 import { initStore } from './reducer';
 import { Home, ArticleDetail } from './ui/content';
+import { Login } from './ui/auth';
 
+import 'semantic-ui-css/semantic.min.css'
 import './App.css'
 
 const history = createBrowserHistory();
@@ -16,6 +18,7 @@ const App = () => {
             <BrowserRouter>
                 <Route path="/" exact component={Home} />
                 <Route path="/:slug" exact component={ArticleDetail} />
+                <Route path="/auth/login" component={Login} />
             </BrowserRouter>
         </Provider>
     );

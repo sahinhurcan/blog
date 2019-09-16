@@ -1,8 +1,7 @@
 import React from 'react';
 import { Icon, Card } from 'semantic-ui-react';
 
-import { LayoutGuest, MainMenu, truncate } from '../../layout';
-import { mapProps } from 'recompose';
+import { LayoutGuest, PublicMenu, truncate } from '../../layout';
 
 class ArticleWidget extends React.Component {
     render = () => {
@@ -20,8 +19,11 @@ class ArticleWidget extends React.Component {
 }
 
 const ArticleWidgetEmpty = () => 
-    <Card>
-        <Card.Header>There is no article</Card.Header>
+    <Card fluid>
+        <Card.Header style={{ padding: '24px', textAlign: 'center', fontSize: '20px' }}>
+            <Icon name="write" size='large' /><br />
+            <p style={{ paddingTop: '8px' }}>There is no article</p>
+        </Card.Header>
     </Card>
 
 class Home extends React.Component {
@@ -37,7 +39,7 @@ class Home extends React.Component {
         const { articles } = this.state;
         return (
             <LayoutGuest>
-                <MainMenu history={this.props.history} />
+                <PublicMenu history={this.props.history} />
                 <h3>Welcome Back!</h3>
                 <Card.Group>
                     {articles.length > 0 ? articles.map((val, key) => 

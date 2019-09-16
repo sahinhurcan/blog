@@ -18,7 +18,7 @@ class MainMenu extends React.Component {
         const { activeItem } = this.state;
         return (
             <Menu style={{marginTop: '10px'}} pointing secondary>
-                <Menu.Item header name="home" onClick={this.handleItemClick}>SupernovaSoft Blog</Menu.Item>
+                <Menu.Item header name="home" onClick={this.handleItemClick}>SuperNovaSoft Blog Administration</Menu.Item>
                 {/* <Menu.Item
                     name="alarms"
                     active={activeItem === 'alarms'}
@@ -36,3 +36,24 @@ class MainMenu extends React.Component {
     }
 }
 export default MainMenu;
+
+export class PublicMenu extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            activeItem: this.props.activeItem || false,
+            path: '/',
+        }
+    }
+    handleItemClick = (e, {name, path}) => {
+        this.setState({activeItem: name});
+        this.props.history.push(`/${path}/`);
+    }
+    render = () => {
+        return (
+            <Menu style={{ marginTop: '10px' }} pointing secondary>
+                <Menu.Item header name="home" path="/" onClick={this.handleItemClick}>SuperNovaSoft Blog</Menu.Item>
+            </Menu>
+        )
+    }
+}
