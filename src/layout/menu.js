@@ -18,42 +18,12 @@ class MainMenu extends React.Component {
         const { activeItem } = this.state;
         return (
             <Menu style={{marginTop: '10px'}} pointing secondary>
-                <Menu.Item header name="home" onClick={this.handleItemClick}>Crypto Indicator Alerts</Menu.Item>
-                <Menu.Item
+                <Menu.Item header name="home" onClick={this.handleItemClick}>SupernovaSoft Blog</Menu.Item>
+                {/* <Menu.Item
                     name="alarms"
                     active={activeItem === 'alarms'}
                     onClick={this.handleItemClick}
-                    >Alarm</Menu.Item>
-                <Menu.Item
-                    name="coins"
-                    active={activeItem === 'coins'}
-                    onClick={this.handleItemClick}
-                    >Coin</Menu.Item>
-                <Menu.Item
-                    name="crons"
-                    active={activeItem === 'crons'}
-                    onClick={this.handleItemClick}
-                    >Crons</Menu.Item>
-                <Menu.Item
-                    name="indicators"
-                    active={activeItem === 'indicators'}
-                    onClick={this.handleItemClick}
-                    >Indicator</Menu.Item>
-                {/* <Menu.Item
-                    name="notifications"
-                    active={activeItem === 'notifications'}
-                    onClick={this.handleItemClick}
-                    >Notification</Menu.Item> */}
-                <Menu.Item
-                    name="orders"
-                    active={activeItem === 'orders'}
-                    onClick={this.handleItemClick}
-                    >Orders</Menu.Item>
-                <Menu.Item
-                    name="users"
-                    active={activeItem === 'users'}
-                    onClick={this.handleItemClick}
-                    >Users</Menu.Item>
+                    >Alarm</Menu.Item> */}
                 <Menu.Menu position="right">
                     <Menu.Item
                         name="logout"
