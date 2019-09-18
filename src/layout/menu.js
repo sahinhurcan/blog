@@ -8,22 +8,24 @@ class MainMenu extends React.Component {
         super(props);
         this.state = {
             activeItem: this.props.activeItem || false,
+            path: '/',
         }
     }
-    handleItemClick = (e, {name}) => {
+    handleItemClick = (e, {name, path}) => {
         this.setState({activeItem: name});
-        this.props.history.push(`/${name}/`);
+        this.props.history.push(`/admin${path}`);
     }
     render() {
         const { activeItem } = this.state;
         return (
             <Menu style={{marginTop: '10px'}} pointing secondary>
-                <Menu.Item header name="home" onClick={this.handleItemClick}>SuperNovaSoft Blog Administration</Menu.Item>
-                {/* <Menu.Item
-                    name="alarms"
-                    active={activeItem === 'alarms'}
+                <Menu.Item header name="home" path="" onClick={this.handleItemClick}>Blog Administration</Menu.Item>
+                <Menu.Item
+                    name="articles"
+                    path="/articles"
+                    active={activeItem === 'articles'}
                     onClick={this.handleItemClick}
-                    >Alarm</Menu.Item> */}
+                    >Articles</Menu.Item>
                 <Menu.Menu position="right">
                     <Menu.Item
                         name="logout"
@@ -47,7 +49,7 @@ export class PublicMenu extends React.Component {
     }
     handleItemClick = (e, {name, path}) => {
         this.setState({activeItem: name});
-        this.props.history.push(`/${path}/`);
+        this.props.history.push(`${path}`);
     }
     render = () => {
         return (
