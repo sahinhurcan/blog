@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Button, Label, Divider, Modal, Icon, Header, Form, Message, Table } from 'semantic-ui-react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -221,4 +222,16 @@ class Articles extends React.Component {
     }
 }
 
-export default Articles;
+const mapStateToProps = state => {
+    const { authUser } = state.sessionState
+    //console.log(authUser)
+    return {
+        isAuthenticated: !!authUser,
+        token: !!authUser && authUser.uid,
+        displayName: !!authUser && authUser.displayName,
+        email: !!authUser && authUser.email,
+        emailVerified: !!authUser && authUser.emailVerified,
+    }
+}
+
+export default connect(mapStateToProps, null)(Articles);
