@@ -10,7 +10,7 @@ class ArticleWidget extends React.Component {
     render = () => {
         const { title, slug, author, desc, date, history } = this.props;
         return (
-            <Card onClick={() => history.push(`/${slug}`) }>
+            <Card onClick={() => history.push(`/article/${slug}`, {title}) }>
                 <Card.Content>
                     <Card.Header>{title}</Card.Header>
                     <Card.Meta>{author} | {date}</Card.Meta>
@@ -100,6 +100,7 @@ class Home extends React.Component {
                 <Card.Group>
                     {datalist.length > 0 ? datalist.map((val, key) => 
                         <ArticleWidget 
+                            key={key}
                             // title={val.title}
                             // slug={val.slug}
                             // author={val.author}
