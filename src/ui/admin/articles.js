@@ -75,11 +75,67 @@ class AddDataModal extends React.Component {
 }
 
 class EditDataModal extends React.Component {
-    state = {open: false, ...INITIAL_STATE}
+    constructor(props){
+        super(props)
+        this.state = {open: false, loading: false, error: '', success: '', ...props.dataRow}
+    }
+    closeConfigShow = (closeOnEscape) => () => {this.setState({closeOnEscape, open: true})}
+    close = () => this.setState({open: false})
+    handleSubmit = async (e) => {
+        e.preventDefault()
+        this.setState({loading: true, error: '', success: ''})
+        const { articleId } = this.state;
+        db.ref(treeName).child(articleId).update({
+            title: this.state.title,
+            slug: slugify(this.state.title),
+            author: this.state.displayName || 'Admin',
+            uid: this.state.uid || 'xxx',
+            articleId: articleId,
+            desc: this.state.desc,
+            date: Math.floor(Date.now()),
+        })
+        this.setState({loading: false, open: false})
+        this.props.getDatalistRefresh();
+    }
     render = () => {
+        const { title, desc} = this.state
+        const isValid = title !== '' && desc !== ''
         return (
             <React.Fragment>
-                d
+                <span onClick={this.closeConfigShow(false, true)} style={{ cursor: 'pointer' }}><Icon name="edit outline" color="blue" /></span>
+                <Modal closeOnEscape={this.state.closeOnEscape} onClose={this.close} open={this.state.open} size='large'>
+                    <Modal.Header>Edit Article</Modal.Header>
+                    <Modal.Content>
+                        <Modal.Description>
+                            <Form onSubmit={this.handleSubmit} error={!!this.state.error}>
+                                {!!this.state.error && <Message error visible header="Error!" content={this.state.error} />}
+                                {!!this.state.success && <Message error visible header="Success!" content={this.state.success} />}
+                                <Form.Field>
+                                    <label>Title</label>
+                                    <input 
+                                        type="text"
+                                        value={title}
+                                        onChange={e => this.setState({title: e.target.value})}
+                                        placeholder="Title"
+                                    />
+                                </Form.Field>
+                                <Form.Field>
+                                    <SimpleMDE
+                                        id="editarticledesc"
+                                        label="Description"
+                                        onChange={value => this.setState({desc: value})}
+                                        value={desc}
+                                        options={{
+                                            autofocus: false,
+                                            spellChecker: true,
+                                        }}
+                                    />
+                                </Form.Field>
+                                <Button loading={this.state.loading} disabled={!isValid} primary>Save</Button>
+                            </Form>
+                        </Modal.Description>
+                    </Modal.Content>
+                </Modal>
             </React.Fragment>
         )
     }
