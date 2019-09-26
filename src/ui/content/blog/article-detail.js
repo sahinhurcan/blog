@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon, Card } from 'semantic-ui-react';
 
 import { db } from '../../../firebase';
-import { LayoutGuest, PublicMenu, fromObjectToList } from '../../../layout';
+import { LayoutGuest, PublicMenu, fromObjectToList, DisplayTimeAgo } from '../../../layout';
 
 const treeName = "articles";
 
@@ -30,7 +30,7 @@ class ArticleDetail extends React.Component {
                     <Card fluid>
                         <Card.Content>
                             <Card.Header>{!!data && data.title}</Card.Header>
-                            <Card.Meta>{!!data && data.author} | {!!data && data.date}</Card.Meta>
+                            <Card.Meta>{!!data && data.author} | {!!data && <DisplayTimeAgo time={data.date} isTimeAgo={true} />}</Card.Meta>
                             <Card.Description>
                                 {!!data && data.desc}
                             </Card.Description>

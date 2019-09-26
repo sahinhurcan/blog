@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon, Card } from 'semantic-ui-react';
 
 import { db } from '../../firebase';
-import { LayoutGuest, PublicMenu, truncate, fromObjectToList, SimplePaginate } from '../../layout';
+import { LayoutGuest, PublicMenu, truncate, fromObjectToList, SimplePaginate, DisplayTimeAgo } from '../../layout';
 
 const treeName = "articles";
 
@@ -10,10 +10,10 @@ class ArticleWidget extends React.Component {
     render = () => {
         const { title, slug, author, desc, date, history } = this.props;
         return (
-            <Card onClick={() => history.push(`/article/${slug}`, {title}) }>
-                <Card.Content>
+            <Card>
+                <Card.Content onClick={() => history.push(`/article/${slug}`, {title}) } style={{cursor: 'pointer'}}>
                     <Card.Header>{title}</Card.Header>
-                    <Card.Meta>{author} | {date}</Card.Meta>
+                    <Card.Meta>{author} | <DisplayTimeAgo time={date} isTimeAgo={true} /></Card.Meta>
                     <Card.Description>{truncate(desc, 100)}</Card.Description>
                 </Card.Content>
             </Card>

@@ -4,7 +4,7 @@ import { Button, Label, Divider, Modal, Icon, Header, Form, Message, Table } fro
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
-import { LayoutUser, MainMenu, SimplePaginate, slugify, fromObjectToList, randomString } from '../../layout';
+import { LayoutUser, MainMenu, SimplePaginate, slugify, fromObjectToList, randomString, DisplayTimeAgo } from '../../layout';
 import { db } from '../../firebase';
 
 const treeName = "articles";
@@ -21,11 +21,11 @@ class AddDataModal extends React.Component {
         db.ref(treeName).child(articleId).set({
             title: this.state.title,
             slug: slugify(this.state.title),
-            author: 'Admin',
-            uid: 'xxx',
+            author: this.props.displayName || 'Admin',
+            uid: this.props.uid || 'xxx',
             articleId: articleId,
             desc: this.state.desc,
-            date: Math.floor(Date.now() / 1000),
+            date: Math.floor(Date.now()),
         })
         this.setState({title: '', desc: '', loading: false, open: false});
         this.props.getDatalistRefresh();
@@ -113,11 +113,12 @@ class DataRow extends React.Component {
     }
     render = () => {
         const { Row, Cell } = Table;
-        const { title, articleId } = this.props.dataRow;
+        const { title, articleId, date } = this.props.dataRow;
         return (
             <Row>
                 <Cell>{title}</Cell>
                 <Cell>{articleId}</Cell>
+                <Cell><DisplayTimeAgo time={date} isTimeAgo={true} /></Cell>
                 <Cell>
                     <EditDataModal {...this.props} />
                     {this.deleteModal(articleId)}
@@ -195,7 +196,7 @@ class Articles extends React.Component {
             <LayoutUser>
                 <MainMenu history={this.props.history} />
                 <h3>All Articles <Label floated="right">Total {this.state.totalItemCount}</Label>
-                    <AddDataModal getDatalistRefresh={this.getDatalistRefresh} />
+                    <AddDataModal getDatalistRefresh={this.getDatalistRefresh} uid={this.props.uid} displayName={this.props.displayName} />
                 </h3>
                 <Divider />
                 <Table>
@@ -203,6 +204,7 @@ class Articles extends React.Component {
                         <Row>
                             <HeaderCell>Title</HeaderCell>
                             <HeaderCell>ID</HeaderCell>
+                            <HeaderCell>Time</HeaderCell>
                             <HeaderCell><Icon name='ellipsis horizontal' /></HeaderCell>
                         </Row>
                     </Header>
