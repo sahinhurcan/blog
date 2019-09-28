@@ -1,21 +1,31 @@
 import React from 'react';
 import { Icon, Card } from 'semantic-ui-react';
+import { Remarkable } from 'remarkable';
 
 import { db } from '../../firebase';
 import { LayoutGuest, PublicMenu, truncate, fromObjectToList, SimplePaginate, DisplayTimeAgo } from '../../layout';
 
 const treeName = "articles";
+let md = new Remarkable('full', {
+    html: false,
+    typographer: true,
+});
 
 class ArticleWidget extends React.Component {
     render = () => {
         const { title, slug, author, desc, date, history } = this.props;
         return (
-            <Card>
-                <Card.Content onClick={() => history.push(`/article/${slug}`, {title}) } style={{cursor: 'pointer'}}>
+            <Card fluid className="widget">
+                <Card.Content>
                     <Card.Header>{title}</Card.Header>
                     <Card.Meta>{author} | <DisplayTimeAgo time={date} isTimeAgo={true} /></Card.Meta>
-                    <Card.Description>{truncate(desc, 100)}</Card.Description>
+                    <Card.Description style={{ textOverflow: 'ellipsis', overflow: 'hidden', height: '80px' }}>
+                        {!!desc &&
+                            <div dangerouslySetInnerHTML={{__html: md.render(truncate(desc, 500))}} />
+                        }
+                    </Card.Description>
                 </Card.Content>
+                <div className="caption" onClick={() => history.push(`/article/${slug}`, {title})}></div>
             </Card>
         )
     }

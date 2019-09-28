@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 
 import { initStore } from './reducer';
 import { Home, ArticleDetail } from './ui/content';
-import { Articles, Dashboard } from './ui/admin';
+import { Articles, Categories, Dashboard } from './ui/admin';
 import { Login } from './ui/auth';
 
 import 'semantic-ui-css/semantic.min.css'
@@ -22,6 +22,7 @@ const App = () => {
                 <Route path="/auth/login" component={Login} />
                 <Route path="/admin" exact component={Dashboard} />
                 <Route path="/admin/articles" component={Articles} />
+                <Route path="/admin/categories" component={Categories} />
             </BrowserRouter>
         </Provider>
     );

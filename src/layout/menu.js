@@ -26,6 +26,12 @@ class MainMenu extends React.Component {
                     active={activeItem === 'articles'}
                     onClick={this.handleItemClick}
                     >Articles</Menu.Item>
+                <Menu.Item
+                    name="categories"
+                    path="/categories"
+                    active={activeItem === 'categories'}
+                    onClick={this.handleItemClick}
+                    >Categories</Menu.Item>
                 <Menu.Menu position="right">
                     <Menu.Item
                         name="logout"
