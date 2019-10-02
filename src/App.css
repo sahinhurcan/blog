@@ -7,6 +7,9 @@ body, h1{font-family: 'Roboto', sans-serif;}
     cursor: pointer;
     z-index: 1;
 }
+.caption:hover {
+    background: linear-gradient(0deg,rgb(255, 255, 255) 0,transparent 50%);
+}
 .ui.card, .ui.cards > .card.widget {
     box-shadow: none;
     border: #d4d4d5 1px solid;

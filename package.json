@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase": "^6.4.0",
     "highlight.js": "^9.15.10",
+    "lodash": "^4.17.15",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-head": "^3.1.1",

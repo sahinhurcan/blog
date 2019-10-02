@@ -1,17 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Label, Divider, Modal, Icon, Header, Form, Message, Table } from 'semantic-ui-react';
+import { Button, Label, Divider, Modal, Icon, Header, Form, Message, Table, Dropdown } from 'semantic-ui-react';
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
+//import _ from 'lodash';
 
 import { LayoutUser, MainMenu, SimplePaginate, slugify, fromObjectToList, randomString, DisplayTimeAgo } from '../../layout';
 import { db } from '../../firebase';
 
 const treeName = "articles";
+const treeName2 = "categories";
 const INITIAL_STATE = {title: '', desc: '', error: '', success: '', loading: false}
 
 class AddDataModal extends React.Component {
-    state = {open: false, ...INITIAL_STATE}
+    state = {open: false, ...INITIAL_STATE, categories: [], categoryId: null}
     closeConfigShow = (closeOnEscape) => () => {this.setState({closeOnEscape, open: true})}
     close = () => this.setState({open: false})
     handleSubmit = async (e) => {
@@ -24,11 +26,24 @@ class AddDataModal extends React.Component {
             author: this.props.displayName || 'Admin',
             uid: this.props.uid || 'xxx',
             articleId: articleId,
+            categoryId: this.state.categoryId,
             desc: this.state.desc,
             date: Math.floor(Date.now()),
         })
         this.setState({title: '', desc: '', loading: false, open: false});
         this.props.getDatalistRefresh();
+    }
+    handleInput = async e => {
+        const search = e.target.value;
+        let categories = []
+        if (!!search && search.length > 1) {
+            let qref = db.ref(treeName2)
+            qref = qref.orderByChild("slug").startAt(search).endAt(search+"\uf8ff")
+            const snapshot = await qref.once('value');
+            const options = fromObjectToList(snapshot.val());
+            categories = options.map((val, key) => ({key, value: val.categoryId, text: val.name}))
+        }
+        this.setState({categories})
     }
     render = () => {
         const { open, closeOnEscape, title, desc } = this.state;
@@ -50,6 +65,18 @@ class AddDataModal extends React.Component {
                                         value={title}
                                         onChange={e => this.setState({title: e.target.value})}
                                         placeholder="Title"
+                                    />
+                                </Form.Field>
+                                <Form.Field>
+                                    <label>Category</label>
+                                    <Dropdown 
+                                        placeholder="Select Category"
+                                        fluid
+                                        search
+                                        selection
+                                        onInput={this.handleInput}
+                                        onChange={(e, { value }) => this.setState({ categoryId: value })}
+                                        options={this.state.categories}
                                     />
                                 </Form.Field>
                                 <Form.Field>
@@ -97,6 +124,21 @@ class EditDataModal extends React.Component {
         this.setState({loading: false, open: false})
         this.props.getDatalistRefresh();
     }
+    handleInput = async e => {
+        const search = e.target.value;
+        let categories = []
+        if (!!search && search.length > 1) {
+            let qref = db.ref(treeName2)
+            qref = qref.orderByChild("slug").startAt(search).endAt(search+"\uf8ff")
+            const snapshot = await qref.once('value');
+            const options = fromObjectToList(snapshot.val());
+            categories = options.map((val, key) => ({key, value: val.categoryId, text: val.name}))
+        }
+        this.setState({categories})
+    }
+    componentDidMount(){
+        this.handleInput({target:{value: this.state.categoryId}})
+    }
     render = () => {
         const { title, desc} = this.state
         const isValid = title !== '' && desc !== ''
@@ -117,6 +159,19 @@ class EditDataModal extends React.Component {
                                         value={title}
                                         onChange={e => this.setState({title: e.target.value})}
                                         placeholder="Title"
+                                    />
+                                </Form.Field>
+                                <Form.Field>
+                                    <label>Category</label>
+                                    <Dropdown 
+                                        placeholder="Select Category"
+                                        fluid
+                                        search
+                                        selection
+                                        onInput={this.handleInput}
+                                        onChange={(e, { value }) => this.setState({ categoryId: value })}
+                                        options={this.state.categories}
+                                        value={this.state.categoryId}
                                     />
                                 </Form.Field>
                                 <Form.Field>
