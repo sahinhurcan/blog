@@ -2,8 +2,10 @@
   "name": "snsblog",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://blog.supernovasoft.com/",
   "dependencies": {
     "firebase": "^6.4.0",
+    "gh-pages": "^2.1.1",
     "highlight.js": "^9.15.10",
     "lodash": "^4.17.15",
     "react": "^16.9.0",
@@ -22,6 +24,8 @@
     "semantic-ui-react": "^0.88.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
