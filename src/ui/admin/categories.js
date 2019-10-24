@@ -79,7 +79,7 @@ class EditDataModal extends React.Component {
         this.props.getDatalistRefresh();
     }
     render = () => {
-        const { open, closeOnEscape, name } = this.state;
+        const { name } = this.state; // open, closeOnEscape,
         const isValid = name !== '';
         return (
             <React.Fragment>

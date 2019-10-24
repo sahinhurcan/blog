@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Card } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import { Remarkable } from 'remarkable';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github-gist.css';
