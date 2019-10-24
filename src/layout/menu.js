@@ -60,7 +60,7 @@ export class PublicMenu extends React.Component {
     render = () => {
         return (
             <Menu style={{ marginTop: '10px' }} pointing secondary>
-                <Menu.Item header name="home" path="/" onClick={this.handleItemClick}>SuperNovaSoft Blog</Menu.Item>
+                <Menu.Item name="home" path="/" onClick={this.handleItemClick}><strong>Blog</strong>&nbsp;| Supernova Software</Menu.Item>
             </Menu>
         )
     }
